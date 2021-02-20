@@ -38,7 +38,7 @@ fi
 while [ $check -ne 1 ] && [ $check -ne 0 ];
 do 
     echo "Вы вели неверно повтори еще раз"
-    read  check
+    read -n 1  check
     if [ $check ]
     then
         echo ""
@@ -81,7 +81,7 @@ then
     echo "Введите название файла который ищете:"
     criteria="-iname"
     p="*"
-    t="*"
+    t=""
 elif [[ "$type_find" = "2" ]]
 then
     echo "Выберите каталог в котором будете искать"
@@ -105,13 +105,11 @@ read file
 echo ""
 echo "Результат команда find:"
 result="find $path $criteria \"$p$file$t\""
-eval $result 2> /dev/null
-if [ $? -eq 0 ] 
+result=$(eval $result) 
+if [ "$result" ] && [ $? -eq 0 ] 
 then
-    echo $?
-    eval $result
+    echo "$result"
 else
-    echo "$? 1"
     echo "Не нашел файлы((("
 fi 
 echo ""
